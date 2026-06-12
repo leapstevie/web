@@ -3,7 +3,7 @@ import dotenv               from "dotenv";
 import path                 from "path";
 import { fileURLToPath }    from "url";
 import userRoutes           from "./routes/user.routes.js";
-import { renderUsersPage }  from "./controllers/user.controller.js";
+import { ensureAuthAccountsTable, renderUsersPage } from "./controllers/user.controller.js";
 
 dotenv.config();
 
@@ -18,9 +18,16 @@ app.set("views", path.join(__dirname, "view"));
 app.set("view engine", "ejs");
 app.use("/api/users", userRoutes);
 app.get("/", renderUsersPage);
-app.get("/", (req, res) => res.redirect("/"));
 
+const PORT = process.env.PORT || 3000;
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server running on port ${process.env.PORT || 3000}`);
-});
+ensureAuthAccountsTable()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error("Failed to initialize auth_accounts table:", error.message);
+        process.exit(1);
+    });

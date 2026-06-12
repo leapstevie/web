@@ -1,0 +1,15 @@
+meta {
+  name: Get Current User From JWT
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/users/me
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{jwtToken}}
+}

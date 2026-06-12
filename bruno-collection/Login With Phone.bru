@@ -1,0 +1,22 @@
+meta {
+  name: Login With Phone
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/users/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "emailOrPhone": "01700000001",
+    "password": "123456"
+  }
+}

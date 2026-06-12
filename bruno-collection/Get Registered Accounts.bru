@@ -1,0 +1,15 @@
+meta {
+  name: Get Registered Accounts
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/users/auth-accounts
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{jwtToken}}
+}
